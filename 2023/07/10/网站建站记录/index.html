@@ -1,0 +1,307 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>博客建站记录 | 十六的个人网站</title><meta name="author" content="十六"><meta name="copyright" content="十六"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Part1:Hexo+GitHub建站（已完成）一、前置条件：本地电脑安装git，node18，gitee&#x2F;github创建项目，github生成ssh密钥（本地生成，github配置） 二、搭建博客的命令如下： 检查本地的git的版本  123shili@shiliu MINGW64 &#x2F;e&#x2F;02-Interview&#x2F;00-blog$ git -vgit version 2.41.0.w">
+<meta property="og:type" content="article">
+<meta property="og:title" content="博客建站记录">
+<meta property="og:url" content="https://shiliu001.github.io/2023/07/10/%E7%BD%91%E7%AB%99%E5%BB%BA%E7%AB%99%E8%AE%B0%E5%BD%95/index.html">
+<meta property="og:site_name" content="十六的个人网站">
+<meta property="og:description" content="Part1:Hexo+GitHub建站（已完成）一、前置条件：本地电脑安装git，node18，gitee&#x2F;github创建项目，github生成ssh密钥（本地生成，github配置） 二、搭建博客的命令如下： 检查本地的git的版本  123shili@shiliu MINGW64 &#x2F;e&#x2F;02-Interview&#x2F;00-blog$ git -vgit version 2.41.0.w">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://pmmiow1hs9.feishu.cn/space/api/box/stream/download/asynccode/?code=Njg2MzhmMzU2MTU4NDBlNTM3MWM1ZjAzY2IwYzVhMDZfRkJza21vaGNyRWhqMGNZUnhBRnJyN2tDN3JIZ0N5ZXVfVG9rZW46WmkxbGJIcWJlb3d1Zzd4SkJJSGM2TFFpbkNlXzE2OTQzNTM0MTE6MTY5NDM1NzAxMV9WNA">
+<meta property="og:image" content="https://pmmiow1hs9.feishu.cn/space/api/box/stream/download/asynccode/?code=MjMxZTcwMTQzZDk3YzlhMzA1NjUwNjQyMjk0Nzg2ZTdfc1UwMEE4Z2JoMnFGNGZXcFBmdG1xVVRJR0FiNVBvWXFfVG9rZW46U0Vhb2JsMnk3b2gyOVN4OUlOZmNhRHVabmFmXzE2OTQzNTM0MTE6MTY5NDM1NzAxMV9WNA">
+<meta property="og:image" content="https://pmmiow1hs9.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmIzMTQ0NWUwMzhkN2FhYTZmMmY0NjExZjE2ODcwYWNfRW5LQ1hodEtWRHFCWVlpMDFRMHhUVnFwb2lCN3BoaGpfVG9rZW46TkRPSmJRVHE5b2JpVjl4Zk5Sa2N1dmxzbnVlXzE2OTQzNTM0MTE6MTY5NDM1NzAxMV9WNA">
+<meta property="article:published_time" content="2023-07-10T10:47:55.000Z">
+<meta property="article:modified_time" content="2023-09-10T13:57:45.404Z">
+<meta property="article:author" content="十六">
+<meta property="article:tag" content="博客搭建">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pmmiow1hs9.feishu.cn/space/api/box/stream/download/asynccode/?code=Njg2MzhmMzU2MTU4NDBlNTM3MWM1ZjAzY2IwYzVhMDZfRkJza21vaGNyRWhqMGNZUnhBRnJyN2tDN3JIZ0N5ZXVfVG9rZW46WmkxbGJIcWJlb3d1Zzd4SkJJSGM2TFFpbkNlXzE2OTQzNTM0MTE6MTY5NDM1NzAxMV9WNA"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://shiliu001.github.io/2023/07/10/%E7%BD%91%E7%AB%99%E5%BB%BA%E7%AB%99%E8%AE%B0%E5%BD%95/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":100,"languages":{"author":"作者: 十六","link":"链接: ","source":"来源: 十六的个人网站","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '博客建站记录',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-09-10 21:57:45'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/null" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类树</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="十六的个人网站"><span class="site-name">十六的个人网站</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类树</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">博客建站记录</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-07-10T10:47:55.000Z" title="发表于 2023-07-10 18:47:55">2023-07-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-09-10T13:57:45.404Z" title="更新于 2023-09-10 21:57:45">2023-09-10</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">787</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="博客建站记录"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="Part1-Hexo-GitHub建站（已完成）"><a href="#Part1-Hexo-GitHub建站（已完成）" class="headerlink" title="Part1:Hexo+GitHub建站（已完成）"></a>Part1:Hexo+GitHub建站（已完成）</h2><h3 id="一、前置条件："><a href="#一、前置条件：" class="headerlink" title="一、前置条件："></a>一、前置条件：</h3><p>本地电脑安装git，node18，gitee&#x2F;github创建项目，github生成ssh密钥（本地生成，github配置）</p>
+<h3 id="二、搭建博客的命令如下："><a href="#二、搭建博客的命令如下：" class="headerlink" title="二、搭建博客的命令如下："></a>二、搭建博客的命令如下：</h3><ol>
+<li>检查本地的git的版本</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shili@shiliu MINGW64 /e/02-Interview/00-blog</span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">git -v</span></span><br><span class="line">git version 2.41.0.windows.1</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>检查本地的node版本</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shili@shiliu MINGW64 /e/02-Interview/00-blog</span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">node -v</span></span><br><span class="line">v18.16.0</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>检查本地的npm版本</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">shili@shiliu MINGW64 /e/02-Interview/00-blog</span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">npm -v</span></span><br><span class="line">9.5.1</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>本地安装hexo（本地已经安装过hexo了）</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">shili@shiliu MINGW64 /e/02-Interview/00-blog</span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">npm i hexo-cli -g</span></span><br><span class="line"></span><br><span class="line">changed 54 packages in 33s</span><br><span class="line"></span><br><span class="line">13 packages are looking for funding</span><br><span class="line">  run `npm fund` for details</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>查看hexo的版本</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">shili@shiliu MINGW64 /e/02-Interview/00-blog</span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">hexo -v</span></span><br><span class="line">hexo-cli: 4.3.1</span><br><span class="line">os: win32 10.0.22621</span><br><span class="line">node: 18.16.0</span><br><span class="line">acorn: 8.8.2</span><br><span class="line">ada: 1.0.4</span><br><span class="line">ares: 1.19.0</span><br><span class="line">brotli: 1.0.9</span><br><span class="line">cldr: 42.0</span><br><span class="line">icu: 72.1</span><br><span class="line">llhttp: 6.0.10</span><br><span class="line">modules: 108</span><br><span class="line">napi: 8</span><br><span class="line">nghttp2: 1.52.0</span><br><span class="line">nghttp3: 0.7.0</span><br><span class="line">ngtcp2: 0.8.1</span><br><span class="line">openssl: 3.0.8+quic</span><br><span class="line">simdutf: 3.2.2</span><br><span class="line">tz: 2022g</span><br><span class="line">undici: 5.21.0</span><br><span class="line">unicode: 15.0</span><br><span class="line">uv: 1.44.2</span><br><span class="line">uvwasi: 0.0.15</span><br><span class="line">v8: 10.2.154.26-node.26</span><br><span class="line">zlib: 1.2.13</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>hexo本地命令初始化（时间会比较长，需要等待5分钟左右）（会从远程仓库将hexo的git仓库down到本地的文件夹下）</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">shili@shiliu MINGW64 /e/02-Interview/00-blog</span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">hexo init</span></span><br><span class="line">INFO  Cloning hexo-starter https://github.com/hexojs/hexo-starter.git</span><br><span class="line">INFO  Install dependencies</span><br><span class="line">warning hexo &gt; warehouse &gt; cuid@2.1.8: Cuid and other k-sortable and non-cryptographic ids (Ulid, ObjectId, KSUID, all UUIDs) are all insecure. Use @paralleldrive/cuid2 instead.</span><br><span class="line">INFO  Start blogging with Hexo!</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>本地启动初始化的hexo项目</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">shili@shiliu MINGW64 /e/02-Interview/00-blog</span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">hexo s</span></span><br><span class="line">INFO  Validating config</span><br><span class="line">INFO  Start processing</span><br><span class="line">INFO  Hexo is running at http://localhost:4000/ . Press Ctrl+C to stop.</span><br></pre></td></tr></table></figure>
+
+<p>效果图如下：</p>
+<p><img src="https://pmmiow1hs9.feishu.cn/space/api/box/stream/download/asynccode/?code=Njg2MzhmMzU2MTU4NDBlNTM3MWM1ZjAzY2IwYzVhMDZfRkJza21vaGNyRWhqMGNZUnhBRnJyN2tDN3JIZ0N5ZXVfVG9rZW46WmkxbGJIcWJlb3d1Zzd4SkJJSGM2TFFpbkNlXzE2OTQzNTM0MTE6MTY5NDM1NzAxMV9WNA" alt="img"></p>
+<ol>
+<li>修改项目中的_config.yml配置文件（配置相关的文件），补充远程git仓库与分支 如下图，</li>
+</ol>
+<p><img src="https://pmmiow1hs9.feishu.cn/space/api/box/stream/download/asynccode/?code=MjMxZTcwMTQzZDk3YzlhMzA1NjUwNjQyMjk0Nzg2ZTdfc1UwMEE4Z2JoMnFGNGZXcFBmdG1xVVRJR0FiNVBvWXFfVG9rZW46U0Vhb2JsMnk3b2gyOVN4OUlOZmNhRHVabmFmXzE2OTQzNTM0MTE6MTY5NDM1NzAxMV9WNA" alt="img"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repository: 你的github地址</span><br><span class="line">  branch: main</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>提交到远程仓库</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//安装 hexo-deployer-git 自动部署发布工具： </span><br><span class="line">npm install hexo-deployer-git --save</span><br><span class="line"></span><br><span class="line">//执行清理缓存命令</span><br><span class="line">hexo cli </span><br><span class="line"></span><br><span class="line">//生成静态页面</span><br><span class="line">hexo g </span><br><span class="line"></span><br><span class="line">//部署到远程仓库</span><br><span class="line">hexo d </span><br></pre></td></tr></table></figure>
+
+<h3 id="三、主题（更新中）"><a href="#三、主题（更新中）" class="headerlink" title="三、主题（更新中）"></a>三、主题（更新中）</h3><p>主题官方文档：<a target="_blank" rel="noopener" href="https://butterfly.js.org/">https://butterfly.js.org/</a></p>
+<p>点击进入网站后，进入快速开始，页面展示会有三种安装方式 github，gitee，npm命令安装，此处进行npm安装，使用git安装方式进行安装，会出现一些bug，推荐使用npm安装。</p>
+<p>npm安装命令:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">shili@shiliu MINGW64 /e/02-Interview/00-blog</span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">npm i hexo-theme-butterfly</span></span><br><span class="line"></span><br><span class="line">added 41 packages, changed 17 packages, and audited 276 packages in 33s</span><br><span class="line"></span><br><span class="line">33 packages are looking for funding</span><br><span class="line">  run `npm fund` for details</span><br><span class="line"></span><br><span class="line">found 0 vulnerabilities</span><br></pre></td></tr></table></figure>
+
+<p>安装完成后按下图所示进行操作，并修改配置文件中的theme为安装的主题，此处安装的主题为：butterfly</p>
+<p><img src="https://pmmiow1hs9.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmIzMTQ0NWUwMzhkN2FhYTZmMmY0NjExZjE2ODcwYWNfRW5LQ1hodEtWRHFCWVlpMDFRMHhUVnFwb2lCN3BoaGpfVG9rZW46TkRPSmJRVHE5b2JpVjl4Zk5Sa2N1dmxzbnVlXzE2OTQzNTM0MTE6MTY5NDM1NzAxMV9WNA" alt="img"></p>
+<p>安装报错：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/blink182007/article/details/123892080">https://blog.csdn.net/blink182007/article/details/123892080</a></p>
+<p>创建页面</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//创建标签页面</span><br><span class="line">hexo new page tags</span><br><span class="line">//创建类别</span><br><span class="line">hexo new page categories</span><br><span class="line">//创建友链</span><br><span class="line">hexo new page link</span><br></pre></td></tr></table></figure>
+
+<p>友链页面创建好之后，在Hexo博客目录中的source&#x2F;目录下，创建_data并新建文件link.yml</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- class_name: 个人博客</span><br><span class="line">  class_desc: 十六的个人博客网站</span><br><span class="line">  link_list:</span><br><span class="line">    - name: github</span><br><span class="line">      link: https://github.com/shiliu001/</span><br><span class="line">      descr: 十六的github</span><br></pre></td></tr></table></figure>
+
+<h2 id="Part2-服务器-域名建站（未完成）"><a href="#Part2-服务器-域名建站（未完成）" class="headerlink" title="Part2:服务器+域名建站（未完成）"></a>Part2:服务器+域名建站（未完成）</h2><p>三步走：</p>
+<ol>
+<li><p>服务器的环境配置；</p>
+</li>
+<li><p>Nginx的搭建与域名；</p>
+</li>
+<li><p>网站页面的优化以及访问速度的提升。</p>
+<p>更新中！！！</p>
+</li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://shiliu001.github.io">十六</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://shiliu001.github.io/2023/07/10/%E7%BD%91%E7%AB%99%E5%BB%BA%E7%AB%99%E8%AE%B0%E5%BD%95/">https://shiliu001.github.io/2023/07/10/网站建站记录/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://shiliu001.github.io" target="_blank">十六的个人网站</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">博客搭建</a></div><div class="post_share"><div class="social-share" data-image="/null" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-full"><a href="/2023/08/17/Java%E5%90%8E%E7%AB%AF%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/" title="博客建站记录"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">博客建站记录</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/null" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">十六</div><div class="author-info__description">十六的个人博客网站</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">2</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/shiliu001"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/shiliu001" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:shiliu_7893@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">码农一枚</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Part1-Hexo-GitHub%E5%BB%BA%E7%AB%99%EF%BC%88%E5%B7%B2%E5%AE%8C%E6%88%90%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">Part1:Hexo+GitHub建站（已完成）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%89%8D%E7%BD%AE%E6%9D%A1%E4%BB%B6%EF%BC%9A"><span class="toc-number">1.1.</span> <span class="toc-text">一、前置条件：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%E7%9A%84%E5%91%BD%E4%BB%A4%E5%A6%82%E4%B8%8B%EF%BC%9A"><span class="toc-number">1.2.</span> <span class="toc-text">二、搭建博客的命令如下：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E4%B8%BB%E9%A2%98%EF%BC%88%E6%9B%B4%E6%96%B0%E4%B8%AD%EF%BC%89"><span class="toc-number">1.3.</span> <span class="toc-text">三、主题（更新中）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Part2-%E6%9C%8D%E5%8A%A1%E5%99%A8-%E5%9F%9F%E5%90%8D%E5%BB%BA%E7%AB%99%EF%BC%88%E6%9C%AA%E5%AE%8C%E6%88%90%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">Part2:服务器+域名建站（未完成）</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/09/10/%E7%BD%91%E7%AB%99%E7%BB%AA%E8%AE%BA/" title="博客绪论">博客绪论</a><time datetime="2023-09-10T10:31:10.602Z" title="发表于 2023-09-10 18:31:10">2023-09-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/08/20/%E5%89%8D%E7%AB%AF%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/" title="博客建站记录">博客建站记录</a><time datetime="2023-08-20T12:47:00.000Z" title="发表于 2023-08-20 20:47:00">2023-08-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/08/17/Java%E5%90%8E%E7%AB%AF%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/" title="博客建站记录">博客建站记录</a><time datetime="2023-08-17T12:00:55.000Z" title="发表于 2023-08-17 20:00:55">2023-08-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/07/10/%E7%BD%91%E7%AB%99%E5%BB%BA%E7%AB%99%E8%AE%B0%E5%BD%95/" title="博客建站记录">博客建站记录</a><time datetime="2023-07-10T10:47:55.000Z" title="发表于 2023-07-10 18:47:55">2023-07-10</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2023 By 十六</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"]):not([href="/music/"]):not([href="/no-pjax/"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"live2d-widget-model-koharu"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body></html>
