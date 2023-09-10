@@ -1,0 +1,443 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>非关系型数据库-Redis | 十六的个人网站</title><meta name="author" content="十六"><meta name="copyright" content="十六"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="课程：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1cr4y1671t资料：https:&#x2F;&#x2F;pan.baidu.com&#x2F;s&#x2F;14EXM3tKP128kGbt5fC5bMQ 提取码: lclr课程评价：1课程很新，Redis 的特性讲的也很全面2除了讲 Redis 理论外，每个知识都搭配丰富的实战案例；并且每个案例都是先带大家思考、设计，才去编码实现，更容易理解。3老师的编码很">
+<meta property="og:type" content="article">
+<meta property="og:title" content="非关系型数据库-Redis">
+<meta property="og:url" content="https://shiliu001.github.io/2023/07/10/Redis/index.html">
+<meta property="og:site_name" content="十六的个人网站">
+<meta property="og:description" content="课程：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1cr4y1671t资料：https:&#x2F;&#x2F;pan.baidu.com&#x2F;s&#x2F;14EXM3tKP128kGbt5fC5bMQ 提取码: lclr课程评价：1课程很新，Redis 的特性讲的也很全面2除了讲 Redis 理论外，每个知识都搭配丰富的实战案例；并且每个案例都是先带大家思考、设计，才去编码实现，更容易理解。3老师的编码很">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1661837971044-8d4a7ce9-a2da-4d15-bf7b-a5e38d5009b0.png?x-oss-process=image/resize,w_1225,limit_0#averageHue=%23f5eeee&from=url&id=mdO0n&originHeight=530&originWidth=1225&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1661838712523-ef4a9938-379e-4633-90cd-04fedfa53af4.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f3f1f1&from=url&id=YQo54&originHeight=642&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1661860409628-60998ca7-81bc-427b-84ec-25ca927cacc7.png?x-oss-process=image/resize,w_1081,limit_0#averageHue=%23152737&from=url&id=N2iLP&originHeight=577&originWidth=1081&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1661862706289-0d131c29-9848-41e9-89a9-4dd0e07d78ca.png#averageHue=%23cbcbc9&from=url&id=hJCyX&originHeight=310&originWidth=1420&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1661861550219-c870a6c5-c3b8-45c2-a98c-d40ee9da54cc.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f2f2f2&from=url&id=iQ9kk&originHeight=814&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1661862400679-42bd43d3-c014-4bef-84c6-cfda891a1e10.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23cececc&from=url&id=p2PgD&originHeight=523&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1661862672521-cda7532d-f7df-45f8-afcd-05d711768631.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f3f3f3&from=url&id=E3skD&originHeight=763&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1661863091505-4e936f4b-4bd9-4725-a3fe-3af79521b3b5.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f6f6f6&from=url&id=x8qVC&originHeight=684&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1661863589046-7495e388-5607-4a74-8579-70110e2bcabf.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f1f0ef&from=url&id=JjrO6&originHeight=620&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1661864069819-a212e48e-6847-402f-9c8b-c49da2035fd5.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f1f1f1&from=url&id=LbPhC&originHeight=692&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1661864923846-67ea2b28-c325-4086-af4a-bbc3edd04de4.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23fef9f8&from=url&id=Bj4K6&originHeight=1070&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1661871634006-05f40eaf-65ce-4995-8f50-dc4e05294aaf.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23e6e6e3&from=url&id=CMqQF&originHeight=436&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1661873415341-491e659b-d90b-4f26-b049-b9e87e9bb620.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f7f7f7&from=url&id=YpId9&originHeight=671&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1661921616087-778dd8bf-63cc-4796-b1c3-677122547928.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f7f6f6&from=url&id=FXUqU&originHeight=596&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1661922180950-6aa9be44-d6cb-4753-a2c7-0b808e6de6ca.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f1eeee&from=url&id=YIIgk&originHeight=689&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1661923370328-3c051d77-234c-4553-a207-a0f897bd2779.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23e5d4d3&from=url&id=wtC4g&originHeight=658&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1661923818451-afd131ec-3f5e-4147-af3d-2bcf310a0112.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23fafafa&from=url&id=okFfA&originHeight=661&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1661924258122-ccc9a1d4-16a8-46bb-9e44-cd4d4a85ae42.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f2f2f2&from=url&id=j6WYz&originHeight=667&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1661924949521-2c030516-1fe7-4685-85e4-c6b686b5a0fe.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23ecebeb&from=url&id=THqDc&originHeight=659&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1661925752772-983448c9-25a2-486a-98fd-a723ea56ca82.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f4f3f3&from=url&id=yi9ea&originHeight=681&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1661944372353-2f44d70a-6207-42b5-8602-bdfb0330d159.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f5f5f5&from=url&id=pEUdX&originHeight=574&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1661945589442-a88fd882-3452-461e-9adb-9bfa2a577eb6.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f3f0f0&from=url&id=QIaxz&originHeight=576&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1661945757372-9427691c-56bc-4521-b996-e93c7351afe0.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f4f4f3&from=url&id=YQLfc&originHeight=646&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1661946415976-1cc6c5fa-f333-4088-9efe-a8431b857d43.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23eeeded&from=url&id=Ss4FC&originHeight=674&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1661946774577-4368f0a8-419c-42a4-87cd-6e3c8c81f957.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f8f8f6&from=url&id=ohoc1&originHeight=533&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1661961347541-af9312d5-4416-4f1e-852d-8daad9aaf72b.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f7f5f5&from=url&id=NkuBt&originHeight=680&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662008375039-1a71b20d-1d87-4607-b7e0-c29b05808d41.png?x-oss-process=image/resize,w_1076,limit_0#averageHue=%23fbfafa&from=url&id=bADud&originHeight=854&originWidth=1076&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662008722698-a9549270-6dc2-4ede-b081-07e0e6ba0456.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f5f5f5&from=url&id=tIqJu&originHeight=704&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662009330789-7326c51e-3039-456c-8f3d-b4530e53445b.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23faf9f9&from=url&id=SoWPM&originHeight=598&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662009326982-7488a52c-d95d-4d88-85a0-29d5884b28f0.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23fbfafa&from=url&id=z8pJx&originHeight=589&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662011259738-a6a16663-4e36-438d-9e78-f40063cd67c4.png?x-oss-process=image/resize,w_1254,limit_0#averageHue=%23f1f4eb&from=url&id=N5s3H&originHeight=247&originWidth=1254&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662030241202-f47dd469-1d9b-4df5-9f26-092d2730d984.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23efeded&from=url&id=DKaIh&originHeight=596&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662031300272-0956bc6b-69e4-48f5-87fe-47b7e5df15d8.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f8f2f0&from=url&id=ZS9jz&originHeight=556&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662031740955-361196d9-008c-430f-96c9-968da059d16e.png#averageHue=%23f8f6f6&from=url&id=bovSf&originHeight=822&originWidth=598&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662052166859-f38be15f-b57d-40e9-ba2c-1fb638039954.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23faf9f9&from=url&id=WpXlq&originHeight=549&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662051386701-c39bfd2a-1e7a-43fb-8af2-cb6380ddc4db.png?x-oss-process=image/resize,w_563,limit_0#averageHue=%23f1edea&from=url&id=wmnP7&originHeight=670&originWidth=563&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662051917992-256924ba-49b7-4eeb-bff8-0db968eea18d.png?x-oss-process=image/resize,w_1149,limit_0#averageHue=%23f9f8f8&from=url&id=KYXeH&originHeight=668&originWidth=1149&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662052994671-0557ed25-ed75-4aec-8341-e91371d3647c.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23d1d6ca&from=url&id=eIMpl&originHeight=665&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662093874892-f64e6e31-c729-45af-83c1-e5a4b04363b0.png?x-oss-process=image/resize,w_955,limit_0#averageHue=%230f2332&from=url&id=RQgRF&originHeight=231&originWidth=955&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662098121346-c34758fa-9b99-412a-9b42-6fe8cd30bda3.png#averageHue=%23e0e0e2&from=url&id=dwn5h&originHeight=232&originWidth=450&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662097922411-4ba1a8d5-e402-4ddf-8596-b19f13a5f216.png?x-oss-process=image/resize,w_680,limit_0#averageHue=%23e8dddb&from=url&id=pHeGt&originHeight=729&originWidth=680&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662098279361-b6b0adaf-5a46-4eae-92c9-29617aebc684.png?x-oss-process=image/resize,w_749,limit_0#averageHue=%23edf0ea&from=url&id=IoJrQ&originHeight=658&originWidth=749&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662098247596-3ac5bdd5-13fd-412a-89af-75a8d845ea5d.png?x-oss-process=image/resize,w_778,limit_0#averageHue=%23eef1eb&from=url&id=MbWjp&originHeight=600&originWidth=778&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662120120114-c6cb6b96-0d32-4d1d-9d70-63f20fdc1ace.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23fcfcfc&from=url&id=GkdjS&originHeight=619&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662135970012-219beab6-83e4-47f2-b6c3-490875f31be3.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f0ece3&from=url&id=qrQWC&originHeight=498&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662138152995-d16f2727-c4d9-40da-bf39-065150d7ed0a.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23fcfcfc&from=url&id=dXZGs&originHeight=607&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662170418646-2bafd7db-ad02-43c9-a0e6-724fee09823c.png#averageHue=%23e5e6e5&from=url&id=oGjME&originHeight=150&originWidth=1416&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662170512882-07909c3b-932c-4f8f-bbf8-16f5f6d9d83d.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f6f6f6&from=url&id=OIqA9&originHeight=504&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662173544679-5086e788-493d-49ee-9ec3-81094b25119f.png#averageHue=%23a2b96c&from=url&id=LXmyA&originHeight=180&originWidth=1596&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662187831281-8d39b9bb-ca7a-40c2-9cf5-ec24c22afc9e.png?x-oss-process=image/resize,w_931,limit_0#averageHue=%23f3f3f5&from=url&id=t0SS3&originHeight=849&originWidth=931&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662187826716-5ff99aa2-fb34-49b8-9795-acb6f925a4b1.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f9f7f4&from=url&id=BZ0eq&originHeight=579&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662199526960-ad74c98d-869d-454a-88be-06f0bbf6e236.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23fcfcfc&from=url&id=AAvI7&originHeight=667&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662199531728-ab03c11f-4c34-4758-85c0-d97db0eb17a1.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23fdfdfd&from=url&id=KahaN&originHeight=827&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662199536976-2a8e6360-4eb0-45b4-8d5d-ac35579b2271.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23fbfbfb&from=url&id=oEZWn&originHeight=713&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662199523680-8bbeeea1-d638-420b-be70-4c7aa72b6e3f.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f8f5f3&from=url&id=eriRG&originHeight=578&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662258685043-daec4891-e0b5-4034-b784-e41dd23aaef6.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f9f8f8&from=url&id=zWvjC&originHeight=680&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662258695058-1cf81cf7-601e-4aeb-8941-bb97f89cc444.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f9f9f8&from=url&id=SEsXU&originHeight=696&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662259856441-adec18e0-f19f-4839-8138-0e207f66fdaa.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f1f1f1&from=url&id=ii8FC&originHeight=547&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662261432855-a5b54817-a81d-42a7-9864-7d3a7a52d6de.png?x-oss-process=image/resize,w_747,limit_0#averageHue=%23b8beb4&from=url&id=owoHt&originHeight=393&originWidth=747&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662263399913-82c17736-6b4f-4bbc-910f-392b016a86ce.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f2f2f2&from=url&id=t2MXn&originHeight=599&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662263817244-d2e78caf-38b9-490f-8b9b-756d4cdec63f.png#averageHue=%23faf9f9&from=url&id=gwLv8&originHeight=352&originWidth=1442&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662264055714-e9977747-f48d-4e69-96b5-06189f31394e.png?x-oss-process=image/resize,w_315,limit_0#averageHue=%23dbd9aa&from=url&id=heOm9&originHeight=571&originWidth=315&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662265366088-f364fe64-cc67-427b-a9d9-7e216c6c7bc8.png?x-oss-process=image/resize,w_1106,limit_0#averageHue=%23f4f8f1&from=url&id=fzQam&originHeight=485&originWidth=1106&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="og:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1662270538754-0a2ec2e5-c32c-42cc-9cfc-d5650fbc7c0f.png?x-oss-process=image/resize,w_1176,limit_0#averageHue=%23102136&from=url&id=GDmr2&originHeight=394&originWidth=1176&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title=">
+<meta property="article:published_time" content="2023-07-10T10:47:55.000Z">
+<meta property="article:modified_time" content="2023-09-10T16:02:30.539Z">
+<meta property="article:author" content="十六">
+<meta property="article:tag" content="数据库">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.nlark.com/yuque/0/2022/png/398476/1661837971044-8d4a7ce9-a2da-4d15-bf7b-a5e38d5009b0.png?x-oss-process=image/resize,w_1225,limit_0#averageHue=%23f5eeee&from=url&id=mdO0n&originHeight=530&originWidth=1225&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://shiliu001.github.io/2023/07/10/Redis/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":100,"languages":{"author":"作者: 十六","link":"链接: ","source":"来源: 十六的个人网站","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '非关系型数据库-Redis',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2023-09-11 00:02:30'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = (url,id = false) => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      if (id) link.id = id
+      link.onerror = reject
+      link.onload = link.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        link.onload = link.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css" media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/null" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">17</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类树</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="十六的个人网站"><span class="site-name">十六的个人网站</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类树</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">非关系型数据库-Redis</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-07-10T10:47:55.000Z" title="发表于 2023-07-10 18:47:55">2023-07-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-09-10T16:02:30.539Z" title="更新于 2023-09-11 00:02:30">2023-09-11</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">9.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>28分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="非关系型数据库-Redis"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>课程：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1cr4y1671t">https://www.bilibili.com/video/BV1cr4y1671t</a><br>资料：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/14EXM3tKP128kGbt5fC5bMQ">https://pan.baidu.com/s/14EXM3tKP128kGbt5fC5bMQ</a> 提取码: lclr<br>课程评价：<br>1课程很新，Redis 的特性讲的也很全面<br>2除了讲 Redis 理论外，每个知识都搭配丰富的实战案例；并且每个案例都是先带大家思考、设计，才去编码实现，更容易理解。<br>3老师的编码很规范，也能学到很多开发技巧<br>4课程非常用心，从 PPT 动画就能看出来</p>
+<p>建议屏蔽弹幕观看<br><strong>一、Redis 入门</strong><br><strong>Redis 介绍</strong><br><strong>是什么？</strong><br>●基于内存的 K &#x2F; V 存储中间件<br>●NoSQL 键值对数据库 </p>
+<p>Redis 不仅仅是数据库，它还能作为消息队列等等。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1661837971044-8d4a7ce9-a2da-4d15-bf7b-a5e38d5009b0.png?x-oss-process=image/resize,w_1225,limit_0#averageHue=%23f5eeee&from=url&id=mdO0n&originHeight=530&originWidth=1225&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="></p>
+<p><strong>关系型 SQL 和 NoSQL 的对比</strong><br>其中应用场景是关键：</p>
+<p><strong>Redis 特征</strong><br>1支持多种数据结构<br>2单线程，每个命令的执行具备原子性，中途不会执行其他命令（指命令处理始终是单线程的，自 6.x 起改为多线程接受网络请求）<br>3高性能、低延时（基于内存、IO 多路复用、良好编码）<br>4支持数据持久化<br>5支持主从、分片集群<br>6支持多语言客户端</p>
+<p><strong>Redis 安装</strong><br>建议 Linux 下安装，直接到官网安装即可，注意安装后更改 redis.conf 文件，设置 bind ip、requirepass 密码等参数。</p>
+<p><strong>Redis 连接方式</strong><br>●redis-cli<br>●GUI<br>●多语言 SDK</p>
+<p><strong>Redis 常用命令</strong><br>Redis 的命令根据数据结构分为多个组。<br>不用背！忘了就查：<br>1）redis 官网命令集：<a target="_blank" rel="noopener" href="https://redis.io/commands/">https://redis.io/commands/</a>，中文版：<a target="_blank" rel="noopener" href="http://www.redis.cn/commands.html">http://www.redis.cn/commands.html</a><br>2）redis-cli help 命令查看，help [command] 可以查看某个具体命令、help @xxx 可以查看某个分组下的命令</p>
+<p><strong>通用命令</strong><br>●set key value<br>●get key<br>●keys pattern 模糊搜索多个 key。性能较差，生产环境（尤其是主节点）不建议使用<br>●del key…<br>●exists key 判断 key 是否存在<br>●expire key 设置过期时间<br>●ttl key 查询剩余存活时间，未设置过期时间则为 -1</p>
+<p><strong>Redis 基本数据结构</strong><br><strong>String 类型</strong><br>支持存储字符串、数字、浮点数（实际存储都是字节数组）：</p>
+<p>单 key 的 value 最大不能超过 512 M！</p>
+<p>实际使用时，通常用冒号连接多个词来拼接 key，比如 [项目名]:[业务名]:[类名]:[id]。在某些 GUI 工具中，会自动根据冒号来划分层级，浏览更方便。</p>
+<p><strong>Hash 类型</strong><br>值是一个 Hash 结构（类似 Java 的 HashMap）：</p>
+<p>常用命令：<br>其实就是在 String 命令名的基础上增加了 ‘H’ 首字母</p>
+<p><strong>List 类型</strong><br>理解为 Java 的 LinkedList 双向链表，特点是有序、插入删除快、但查找性能一般：<br>常见命令如下：<br>有点像操作一个双端队列</p>
+<p><strong>Set 类型</strong><br>集合，类似于 Java 中的 HashSet，特点是单 set 内元素不能重复、查找性能高。<br>常见命令如下：<br>分为单集合命令和多集合命令（交并差集）</p>
+<p><strong>SortedSet 类型</strong><br>有序集合，在 set 的基础上给每个元素多存了一个分数，类似于 value 类型为整型的 HashMap。<br>特点是有序、查找性能高，适合用于排行榜、统计 TopN。<br>常见命令：<br>和 set 结构的命令很像</p>
+<p><strong>Redis 客户端</strong><br><strong>主流客户端</strong><br>可以在 Redis 官网查看所有客户端以及推荐的客户端：<a target="_blank" rel="noopener" href="https://redis.io/docs/clients">https://redis.io/docs/clients</a><br>对于 Java，主要推荐以下 3 种：</p>
+<p>其中，Jedis 的命令和原生 redis 命令行的命令一致，学习成本最低（注意它是线程不安全的，通常配合连接池使用）；Lettuce 和 Spring 兼容最好（Spring Data Redis 默认集成）、基于 Netty 性能最高；Redisson 提供了和 Java 集合用法一致的分布式集合，适用于更复杂的业务场景。</p>
+<p><strong>Spring Data Redis</strong><br>Spring Data 整合封装了一系列数据访问的操作，Spring Data Redis 则是封装了对 Jedis、Lettuce 这两个 Redis 客户端的操作，提供了统一的 RedisTemplate 来操作 Redis。<br>RedisTemplate 针对不同的 Redis 数据结构提供了不同的 API，划分更明确：</p>
+<p>注意，要在 Spring Data Redis 中使用 Lettuce 线程池的话，要额外引入 apache commons-pool2 依赖。</p>
+<p><strong>RedisTemplate 序列化</strong><br>RedisTemplate 默认使用 JDK 原生序列化器，可读性差、内存占用大，因此可以用以下两种方式来改变序列化机制：<br>1自定义 RedisTemplate，指定 key 和 value 的序列化器<br>2使用自带的 StringRedisTemplate，key 和 value 都默认使用 String 序列化器，仅支持写入 String 类型的 key 和 value。因此需要自己将对象序列化成 String 来写入 Redis，从 Redis 读出数据时也要手动反序列化。</p>
+<p><strong>二、Redis 实战</strong><br>业务场景：</p>
+<p><strong>共享 Session（单点登录）</strong><br><strong>介绍</strong><br>为什么需要共享 Session？<br>防止多个后端服务器的数据存储不一致，导致用户访问时出现未登录的情况。</p>
+<p>如何实现共享 Session？<br>使用独立的内存存储来存放 Session。</p>
+<p><strong>实现</strong><br><strong>key 如何设计？</strong><br>为了安全性，随机生成 token，而不是拼接用户信息，防止恶意伪造或爆破。</p>
+<p><strong>选用何种 value 数据结构存放用户信息？</strong><br>string 还是 hash？有以下两种方案：<br>1先在程序中将对象进行 JSON 序列化，再以 string 类型写入<br>2直接以 hash 数据结构写入 ✅</p>
+<p>因为用户信息是对象，建议选择 hash 数据结构，占用内存更少、且支持对单个字段的增删改查。<br>具体流程如下：</p>
+<p><strong>注意事项</strong><br>1存入 Redis 的数据一定要设置过期时间！<br>2存入 Redis 的数据尽量保证精简和安全，比如存入用户信息时可以移除密码等敏感数据<br>3已登录用户访问系统后，记得刷新 token 过期时间（续期）。并且访问任何路径时都要刷新 token，而不仅是需要登录的路径。可以新增 1 层独立的拦截器来实现 token 刷新，如下图：</p>
+<p><strong>缓存</strong><br>P35 - 47<br><strong>介绍</strong><br>什么是缓存？<br>临时存放数据的缓冲区。</p>
+<p>缓存无处不在：</p>
+<p>为什么需要缓存？<br>提前准备好数据，便于更快地读写。</p>
+<p>缓存不是银弹，要权衡利弊！<br>优点：<br>●降低后端节点负载<br>●提升数据读写性能<br>缺点：<br>●额外引入中间件，增大运维成本<br>●额外开发和解决缓存带来的问题，增大开发成本<br>●需要保证数据一致性</p>
+<p><strong>实现</strong><br><strong>关键流程</strong><br>1暂无缓存，从数据库读，然后设置（更新）缓存<br>2已有缓存，直接读缓存</p>
+<p><strong>缓存更新</strong><br>几种常用策略，一般会选择主动更新 + 超时剔除兜底：</p>
+<p>主动更新缓存的几种方式：<br>1cache aside：以数据库的数据为准，业务层自己来控制缓存的写入<br>2write &#x2F; read through：使用现成的数据写入服务，让服务来维护数据库和缓存的一致性，我们只用写数据即可<br>3write behind cache：先更新缓存，通过异步线程定期将缓存的数据持久化（同步到数据库中）</p>
+<p>是选择删除缓存还是更新缓存？<br>建议选择删除缓存，等待下次查询自动设置缓存，做到随用随取，可以避免每次更新数据库后都更新缓存的无效写操作。</p>
+<p>多线程情况下，如何保证缓存和数据库的一致性？<br>1单机：使用本地事务<br>2分布式：使用 TCC 等分布式事务</p>
+<p>先删除缓存还是先操作数据库？<br>下图为两种方式在多线程下可能出现的问题：</p>
+<p>这两种方式都不能百分百保证一致性，但建议选择【先操作数据库，再删除缓存】，出现问题的概率会更低。可以配合延时双删保证缓存一定被删除。</p>
+<p><strong>问题及解决</strong><br><strong>缓存穿透</strong><br>攻击者可以恶意请求数据库中不存在的数据，从而使得每次查询都要绕过缓存查数据库，增大数据库的压力。<br>解决方案：<br>1缓存空值：比如塞一个空字符串。注意可以给空对象的键过期时间设置短一些，或者在新增数据时强制清除下对应缓存（防止查出来还是 null）<br>2布隆过滤器</p>
+<p>预防做法：<br>1增强对请求数据的校验，比如 id &gt; 0<br>2增强对数据格式的控制，比如 id 设置为 10 位，不为 10 位的请求直接拒绝<br>3增强用户权限校验<br>4通过限流来保护数据库</p>
+<p><strong>缓存雪崩</strong><br>问题：大量 key 同时失效或 Redis 宕机导致大量请求访问数据库，带来巨大压力<br>解决思路：<br>1不让 key 同时失效<br>2尽量不让 Redis 宕机</p>
+<p>具体解决方案：</p>
+<p><strong>缓存击穿</strong><br>又叫热点 key 失效：</p>
+<p>两种解决方案：<br>1互斥锁：只有一个线程会负责缓存重建，其余线程拿不到锁，就等着<br>2逻辑过期：key 设置为永不过期，在 value 中记录过期时间，业务中根据这个过期时间来判断缓存是否有效；如果缓存已过期，只有一个线程能抢到锁（然后需要再次判断是否存在缓存），开启独立线程去更新缓存，然后立即返回过期数据；其他抢不到锁的线程也立即返回过期数据，不用等着锁释放。<br>如图：</p>
+<p>两种方式都使用了互斥锁来降低缓存重建的开销。<br>方案优缺点对比：</p>
+<p>以上几种缓存常见问题的解决方案其实是和业务无关的，因此我们可以封装自己的缓存操作工具类（参考 P46，这集很推荐）。</p>
+<p><strong>分布式全局 id 生成</strong><br>P48 - 49<br><strong>介绍</strong><br>为什么需要分布式全局 ID 生成器？<br>1对于订单这种数据，数据库自增的规律性太明显，会暴露一些信息（比如根据昨日和今日的订单号差值看出销量）<br>2数据量过大时，不同表的 id 分别自增，容易出现 id 冲突</p>
+<p>分布式全局 ID 生成应满足的特点：<br>1唯一：整个系统每个 id 都是唯一的<br>2递增：虽然不连续，但整体 ID 保持递增，有利于数据库创建索引（也符合自然规律）<br>3安全：不能通过 id 看出敏感业务信息<br>4高可用：作为核心服务，不能挂掉，否则会影响新数据的生成<br>5高性能：作为频繁调用的服务，性能一定要高</p>
+<p>几种常见的 ID 生成方法，建议根据自己的实际需求选择和设计算法：<br>●雪花算法：性能更高，引入机器序号，但依赖全局时钟<br>●数据库自增：单独的自增表，所有 id 全从这个表取。但性能没有 Redis 高<br>●UUID：随机生成十六进制字符串，性能高，但是乱序、字符串会占用更多空间<br>●Redis 自增 ID：利用 incr 命令实现单 key 的自增</p>
+<p>Redis 自增 ID 完全可以满足以上几个分布式全局 ID 的特点。</p>
+<p><strong>设计实现</strong><br>以下是一种 ID 生成的设计，使用 Long 类型（64 位）存储 id：</p>
+<p>使用 Redis 的 Incr 命令，可以实现后 32 位的原子性递增。<br>Redis 的 key 可以设计为 [业务]:[类型]:[日期]，这样每天都会从 1 开始生成序列号。如果用单 key，可能会出现生成序号数溢出 2^32 的情况。</p>
+<p><strong>秒杀业务</strong><br>秒杀业务的核心流程是：判断日期和库存、扣减库存、创建订单<br>如下图：</p>
+<p>注意，秒杀库存信息和商品信息最好是独立的两张表，不要放在一起影响性能。</p>
+<p><strong>订单超卖问题</strong><br>出现的原因：有多个人同时下单，在库存扣减前大家查到的库存都 &gt; 0，所以都触发了扣库存操作。</p>
+<p><strong>解决方法</strong><br>1）悲观锁：假定每次并发都会冲突，所以干脆给操作整体加锁，将并发改为同步执行。<br>可以通过 synchronized 关键字实现。<br>优点是实现简单，缺点是严重影响性能（大家可以同时抢购）。</p>
+<p>2）乐观锁：假定并发不一定会冲突，所以不加锁，而是通过判断数据是否在查出来之后被其他线程修改过，来决定是否允许操作。</p>
+<p>乐观锁主要有版本号法和 CAS 两种实现方式。</p>
+<p>版本号法：<br>给数据增加一个版本号字段，每次修改操作版本号 + 1，就可以通过版本号来判断数据是否有被修改。</p>
+<p>CAS 是对乐观锁的简化，即直接用一个每次都会查询和更新的字段来代替版本号，比如库存 stock 字段：</p>
+<p>优点：性能好<br>缺点：存在成功率低的问题（很多人查到的版本号是一样的， 结果只能有一个人操作成功），可以使用分段锁来改进。比如将 100 个库存分为 10 份，大家分别抢这 10 份。</p>
+<p>对于以上这种场景，其实不用判断 stock 是否变化，可以直接判断 stock &gt; 0，从而保障成功率。</p>
+<p><strong>一人一单</strong><br>对应视频 P54，这集封神</p>
+<p>优惠券或者秒杀活动的目的是为了吸引新用户，因此不能让一个用户把所有东西都抢走了。所以需要额外判断用户当前下单数是否 &gt; 0。<br>这一步操作在多线程场景下依然会出现问题：新用户第一次进来同时抢 10 次，结果判断下单数都是 0，然后就都抢成功了。</p>
+<p>所以还是需要加锁，因为订单是新创建的数据，所以无法使用乐观锁，使用悲观锁实现。</p>
+<p><strong>单机实现</strong><br>单机部署后端服务器时，可以使用 Java 自带的 Synchronized 关键字作为悲观锁。<br>要注意以下几个细节问题：<br>1）synchronized 锁的范围不能太大，不能锁住整个对象，会严重影响性能。因为是一人一单，所以可以每个用户一把独立的锁。<br>注意，锁住对象时要用 toString.intern，保证同 id 的用户始终是同一个对象：<br>2）synchonized 必须在使用 @Transactional 注解的方法外层使用，因为 @Transactional 是使用动态代理，在方法执行结束后才提交事务。如果把 synchronized 写在事务方法内，提交事务前锁已经释放，但此时数据还未更新，其他线程依然能获取锁并顺利执行。<br>3）调用事务方法时不能用 this 对象，因为 @Transactional 注解实际上是调用 Spring 生成的代理对象的方法，如果调用 this 对象的方法会无法使用事务功能，所以要获取代理对象并调用。</p>
+<p>最终示例代码如下：</p>
+<p><strong>分布式实现</strong><br>Synchronized 关键字只对单个 JVM 有效，多机部署时还是可能会同时有多个不同 JVM 的线程访问已加锁的方法。<br>如下图：</p>
+<p>因此，我们不能把锁存储到单个服务器上，而是应该使用一个集中的存储来管理锁，所有进程都能读到它。<br>这就需要分布式锁。</p>
+<p><strong>分布式锁</strong><br>P55 - 68<br>分布式锁：满足分布式系统或集群模式下多进程可见并且互斥的锁。</p>
+<p>分布式锁的两个基本特征：<br>1多进程（线程）可见（读写）<br>2互斥</p>
+<p>还应具备的特征：<br>1高可用：不能挂机<br>2高性能：读写要快<br>3安全性：不能出现死锁</p>
+<p><strong>实现方式</strong><br>主要有以下 3 种：</p>
+<p>其中，MySQL 的实现成本相对最低、Redis 性能最高、Zookeeper 可以实现但不推荐使用（Zk 重点在于保证强一致性而不是性能和高可用性，CP 模型）</p>
+<p><strong>Redis 分布式锁实现</strong><br>获取锁：<br>●使用 setnx 命令设置 lock（本质是创建一个 redis 键值对），保证只有一个线程获取锁成功（满足互斥）并执行业务逻辑，其他线程可以重试或返回失败。<br>●必须 setex 指定 lock 的过期时间（满足安全性）</p>
+<p>注意事项：<br>1为了防止 setnx 后就宕机了导致 lock 永久存在，必须使用 set [key] ex nx 的原子命令，保证每个 lock 都有过期时间。<br>2锁的 key 值建议设计为包含 userId 的，保证多个用户可以并发执行操作，而不是多个用户抢同一把锁。</p>
+<p>释放锁：<br>●主动释放：业务执行完成删掉 key，注意需要把释放锁的逻辑放到 finally 里保证一定执行<br>●超时自动释放（key 过期）</p>
+<p>流程图：</p>
+<p><strong>误删问题</strong><br><strong>情况 1</strong><br>如果线程 A 执行业务时间过长，锁提前过期了，另一个线程 B 会拿到锁并执行业务流程，这时 A 又突然执行完了，结果误删了线程 B 加的锁，会导致新的线程 C 又能拿到锁，从而出现线程安全问题。<br>如图：</p>
+<p><strong>情况 1 - 解决方案</strong><br>获取锁的时候在 value 中存入【本机标识 + 当前线程 id】，释放锁时检测 value 必须等于该值，是自己的锁才能释放。<br>注意，不能只在 value 中存入线程 id，因为多个机器的线程 id 可能是一样的，仍然可能会出现误删。因此可以给每个机器生成一个唯一标识（比如 UUID），再拼接 id。</p>
+<p>流程如下：</p>
+<p><strong>情况 2</strong><br>假设线程 A 释放锁时已经判断了是自己加的锁，但就在这时，JVM 触发了 Stop The World，线程 A 卡住了，然后锁超时释放了，线程 B 就拿到了锁并执行业务。这时，线程 A 又 “醒了”，删除了锁 key，线程 C 又可以拿到锁并执行了，又出现了线程安全问题。<br>如下图：</p>
+<p><strong>情况 2 - 解决方案</strong><br>问题的本质是判断锁 value 和删除锁是两个动作，不具备原子性！<br>可以使用 Redis Lua 脚本，将多个 Redis 命令放到一个脚本中，整个脚本的执行具备原子性。<br>Lua 语言是轻量脚本语言，可以很方便地嵌入到各种应用程序中。<br>不用刻意去学习，随用随查：<a target="_blank" rel="noopener" href="https://www.runoob.com/lua/lua-tutorial.html">https://www.runoob.com/lua/lua-tutorial.html</a></p>
+<p>Lua 脚本可以使用 redis.call 调用 redis 命令，并支持传递动态参数：</p>
+<p>用 Lua 脚本来释放锁的脚本如下：<br>就是把判断和删除组合在一起了</p>
+<p><strong>其他问题</strong><br>除了误删之外，现在的分布式锁实现还存在以下几个问题：<br>1不可重入：同一个线程无法获取同一把锁（递归调用或调用的子函数抢同一把锁时就会出现死锁）<br>2不可重试：没抢到锁就失败了<br>3超时释放：业务未执行完，锁就超时释放了<br>4主从一致性：主节点设置锁成功，还未及时同步到从节点，这时主节点宕机，从节点被选为主节点。但此时从节点还没有锁，仍可以抢锁成功。</p>
+<p>要自己解决这些问题，非常麻烦，所以我们一般会选择现成的类库，比如 Redisson。</p>
+<p><strong>Redisson 实现分布式锁</strong><br>Redisson 是 Java 的 Redis 高级客户端，提供了各种现成的分布式工具类便于我们使用 Redis。<br>官网：<a target="_blank" rel="noopener" href="https://github.com/redisson/redisson">https://github.com/redisson/redisson</a><br>中文文档：<a target="_blank" rel="noopener" href="https://github.com/redisson/redisson/wiki/%E7%9B%AE%E5%BD%95">https://github.com/redisson/redisson/wiki/%E7%9B%AE%E5%BD%95</a><br>使用方式非常简单：<br>1）引入独立的 redisson 包：<br>不建议引入 springboot-starter，因为可能会和 springboot 内置的 redis 整合冲突</p>
+<p>2）创建一个 Redisson 客户端，代码如下：</p>
+<p>3）使用 Redisson 的 Lock，示例代码如下：</p>
+<p><strong>如何实现可重入锁？</strong><br>目的：保证同一个线程可以多次获取同一把锁<br>解决思路：在锁的 value 中额外保存当前线程获取锁的次数，每次获取锁 +1、释放锁 -1，当次数为 0 时才真正删除 key。<br>采用 hash 结构来存储锁信息，如图：</p>
+<p>流程如下：</p>
+<p>注意：<br>1所有的判断和操作都需要使用 Lua 脚本来保证原子性<br>2每次获取和释放锁时要重置锁的有效期，就像新抢到锁一样，给业务充分的执行时间</p>
+<p>获取锁的 Lua 脚本：</p>
+<p>释放锁的 Lua 脚本：</p>
+<p><strong>如何重试获取锁？</strong><br><strong>基于 Redis Pub &#x2F; Sub 发布订阅机制。</strong>如果获取锁失败，则阻塞订阅释放锁的消息；当锁被释放时，会触发推送（告诉其他线程我释放锁啦），然后其他线程再重试获取；如此往复，直到超时。</p>
+<p><strong>如何防止锁提前超时释放？</strong><br><strong>基于看门狗机制。</strong>如果不手动设置锁释放时间（leaseTime），默认设置 30 秒过期，并且给当前锁注册一个定时任务，该定时任务每隔 1 &#x2F; 3 的锁释放时间（一般是 10 秒）会重置锁的过期时间（递归调用，一次续期完了再）。<br>需要思考两个问题：<br>1如何保证同一个锁只注册一个定时任务？<br>2如何防止无限续期？<br>要解决这些问题，使用全局 ConcurrentHashMap 来管理锁 &#x3D;&gt; 任务信息，key 为锁的 id，从而保证唯一。当某个锁释放时，从全局 ConcurrentHashMap 中取出定时任务并取消掉，然后把锁的信息从 Map 中删掉即可。</p>
+<p>最终，完整的分布式锁流程如下：</p>
+<p><strong>如何解决主从一致性问题？</strong><br>如果使用主从复制的 Redis 集群，可能出现主从节点设置的锁状态不一致的问题。<br>可以使用 Redisson 的 MultiLock（联锁）来解决，核心思想是开启多个独立的 Redis 主节点，设置锁时必须在所有主节点都写入成功，才算设置成功。<br>这样做之后，哪怕有部分节点挂掉，其他线程也无法 setnx 全部成功，就不会出现重复执行业务的情况。<br>如下图：</p>
+<p>实现 MultiLock 的几个关键：<br>1遍历所有节点，依次设置锁，并使用列表来记录所有主节点的锁是否设置成功。<br>2只要有一个节点设置不成功，就要释放所有的锁，从头来过。<br>3因为不同节点设置锁成功的时间不同，所以在所有锁设置成功后，要统一设置过期时间（但如果 leaseTime &#x3D; -1 就不用了，因为开启了看门狗机制会自动续期）<br>4锁释放时间（leaseTime）必须要大于抢锁最大等待时间（waitTime），否则可能出现第一个节点抢到锁，最后一个节点还没抢到锁，之前的锁就已经超时释放了。所以如果指定了 waitTime 和 leaseTime，默认 leaseTime &#x3D; waitTime * 2。</p>
+<p>MultiLock 最安全，但同样会带来很大的运维成本。</p>
+<p><strong>秒杀业务优化</strong><br>优化思路：<br>●串行改并行：原本由 1 个线程的操作改为由 2 个或多个线程同时操作，比如 1 个线程负责判断秒杀资格，1 个线程负责减库存 + 创建订单（写）<br>●同步改异步：判断完秒杀资格后，就可以返回订单 id 给前端；其余的写库操作可以异步执行。<br>●提高判断秒杀资格的性能：读 DB 改为读 Redis</p>
+<p>优化后的流程如下：<br>1）将库存信息提前缓存到 Redis 中，并使用 set 来记录用户是否已下单，实现仅在 Redis 里判断秒杀资格</p>
+<p>2）将判断秒杀资格的逻辑封装为 Lua 脚本，保证原子性，原业务流程调用即可<br>3）确认有秒杀资格后，将订单等信息传递给阻塞队列，单个独立线程串行从队列中取出信息并异步下单</p>
+<p>这样一来，可以大大提高性能。<br>阻塞队列可以用 JDK 原生的 BlockingQueue 实现，记得指定队列容量。</p>
+<p><strong>消息队列</strong><br>JDK 阻塞队列可能存在哪些问题？<br>1服务器宕机，内存队列中的订单信息全部丢失<br>2线程处理错误，已取出单个订单信息，但没有入库<br>3受单 JVM 内存限制</p>
+<p>所以，我们需要一个独立的队列来存管订单信息，也就是消息队列。</p>
+<p><strong>什么是消息队列？</strong><br>存管消息的队列，也是一种开发中常用的中间件。<br>消息队列包括 3 个角色：<br>1消息队列：用于存管消息，类似快递柜<br>2生产者：发送消息到队列，类似快递员<br>3消费者：从队列取走消息，类似取快递的人<br>如图：</p>
+<p>使用消息队列的优点（或者说是对其的要求）：<br>●可以保证我们消息的安全、不会丢失（快递柜上锁）<br>●可以解耦生产者和消费者（不用立刻去取快递）<br>●独立组件，不影响 JVM<br>●可以保证消息一定被接受，避免线程处理错误后订单丢失的问题<br>●消息是有序的</p>
+<p><strong>实现方式</strong><br><strong>Redis List 实现</strong><br>使用 Redis List 的结构作为消息队列，使用 LPush 模拟生产者发送消息入队，使用 BRPOP（阻塞弹出）模拟消费者取出消息。没有消息时会保持阻塞状态，从而实现了类似 JVM 阻塞队列的效果。<br>可以满足消息队列的安全性（Redis 持久化机制）、有序性、独立内存的要求。<br>缺点：<br>1只能存在单消费者<br>2消息获取之后就删除了，无法保证业务一定处理成功</p>
+<p><strong>Redis Pub &#x2F; Sub 实现</strong><br>使用 Redis 的订阅发布模型，生产者可以将消息推送给某个 Channel（频道），多个消费者可以订阅该频道，从而同时得到消息。（可以理解为 “你关注的 UP 主更新啦”）<br>用到的命令主要是：<br>●Publish 推送<br>●SubScribe 订阅<br>●PSubScribe 订阅某个表达式匹配的多个频道<br>这样就实现了多生产、多消费。<br>缺点比较多：<br>1Pub &#x2F; Sub 是一次性的，Redis 不会保存发过的消息，没人收的话消息就会丢失<br>2因为上一点，它也无法做数据持久化<br>3客户端虽然可能会缓存已收到的消息，但也是有上限的，可能还是会丢失消息</p>
+<p><strong>因此不建议使用。</strong></p>
+<p><strong>Redis Stream</strong><br>p75 - 77<br>这是 Redis 5.0 新出的数据结构，可以实现单向的消息队列。<br>核心命令：<br>●XAdd：添加消息 &#x2F; 创建队列，消息会自动持久化、不会丢失，每个消息都有唯一 id<br>●XRead：读取消息，支持多消费者读、可从指定消息 id 开始读、支持阻塞读最新消息<br>只用这两个命令还是不够的，因为目前只支持阻塞读 **最新 **消息，假设处理消息过程中又来了几条消息，可能出现漏读消息的情况<br>为解决上述问题，可以用 Stream 的以下特性：<br>●消费组：同组内的多个消费者可以竞争消费（每个消息只有一个消费者能抢到），从而提高消费能力（并发度）。对应命令为 XGROUP、XREADGROUP 等。<br>●消息标识：自动记录消费的进度，支持从上次未消费的地方开始接着消费，保证每条消息按顺序消费<br>●消息确认机制：默认消费的消息为 pending 状态，会放到每个消费者的 pending list 中，只有消息由消费者确认（ACK），才会从 pending list 移除。这样如果消费业务处理异常，可以从 pending list 的开头依次读取未确认消息，重试处理。（也要避免无限重试，实在处理不成功就强制 ACK + 业务记日志）<br>整个消费流程伪代码如下：</p>
+<p>在 Java 中操作 Redis Stream 有两种方法：<br>1调用 Lua 脚本<br>2使用 Redis Tempalte 的 opsForStream()</p>
+<p>几种方案对比：</p>
+<p>注意，Redis 虽然可以实现较完备的消息队列，但还是不如专业的消息队列像 Kafka、RabbitMQ、RocketMQ 要专业，比如持久化能力较差、不支持生产确认、消费顺序性等。</p>
+<p><strong>点赞</strong><br>P80<br>流程：<br>1判断用户是否已点赞<br>2更新 DB 点赞数和点赞关系</p>
+<p>如果全部操作数据库，性能不高，可以把判断是否已点赞、维护点赞关系的逻辑移至 Redis，只用更新数据库点赞数即可。<br>可以使用 Redis Set 结构，比如 key &#x3D; like:[帖子 id]，value 为去重的已点赞用户 id 列表，就可以判断是否已点赞了。</p>
+<p>视频中的点赞代码其实还有问题，还是可能出现同时点赞的情况，可以参考上面秒杀优化的逻辑，使用分布式锁、或者 Lua 脚本解决，操作 DB 的部分也可以使用异步、队列之类的机制，具体情况具体分析。</p>
+<p><strong>排行榜</strong><br>P81<br>示例需求：展示最先给某个帖子点赞的 TopN 用户<br>实现：使用 Redis SortedSet（自动按 score 排序的数据结构），把用户点赞时间作为 score 即可，使用 ZRange 范围查询 TopN。</p>
+<p><strong>共同关注</strong><br>P83<br>需求：计算两个人共同关注的所有用户<br>思路：本质就是求两个用户关注集合的 <strong>交集</strong><br>实现：使用 Redis Set 数据结构，每个 key 保存 1 个用户的关注集合（取关时从集合中移除对应用户），最后对 2 个用户对应的 set 进行 intersect 取交集操作即可</p>
+<p><strong>Feed 流关注推送</strong><br>场景：UP 主发布新内容时，系统会给所有粉丝发送一个消息<br><strong>何为 Feed 流？</strong><br>Feed 流是指无限下拉刷新的内容列表，给用户沉浸式的体验。</p>
+<p>两种模式：<br>1Timeline 时间线模式：所有内容按时间顺序展示，比如朋友圈<br>2智能排序模式：根据一定算法推荐用户感兴趣的内容，比如现在的视频网站</p>
+<p>现在我们要解决的问题是：如何把关注用户的新内容展示到 Feed 流中？</p>
+<p><strong>实现方案</strong><br>1）拉模式：用户上线打开 Feed 流时，再获取关注 UP 推送的内容（用户主动拉，可能比较耗时）</p>
+<p>2）推模式：UP 主发布内容时，直接把内容推到所有粉丝内容列表里（粉丝多的大 UP 主写入时可能会很耗时、占用资源）</p>
+<p>3）推拉结合：<br>推模式应用于：粉丝少的 UP、推送给活跃用户<br>拉模式应用于：粉丝多的 UP &amp;&amp; 推送给非活跃用户</p>
+<p>各种方式的优缺点：</p>
+<p>一般系统用户量级小时采用推模式，系统用户量大（尤其是有大 V）采用推拉结合模式。</p>
+<p><strong>推模式 Redis 实现</strong><br>因为推送是按时间排序的，所以可以使用 SortedSet 数据结构来保存，每个 key 表示一个用户的收件箱，value 为推送 id、score 为推送时间戳。<br>查询所有推送时直接遍历 SortedSet 即可。<br><strong>分页问题</strong><br>但是要注意，由于消息是不断增加的，如果需要分页查询，每条消息的下标都会动态变化，导致数据重复查询，如下图：</p>
+<p>因此，可以使用滚动分页，记录每次当前页查询到的最后一条数据的时间戳（类似游标）。查询下一页时，从当前时间戳的下一条开始查询即可，如图：</p>
+<p>可以使用 SortedSet 的 ZRevRangeByScore 命令实现，每次查询指定时间戳范围（0，当前最大时间戳）的指定条数的数据。示例命令：ZRevRangeByScore key 0 maxTimeStamp offset limit。<br>注意有个问题，可能出现相同时间戳的数据，因此第一次查询时 offset 为 0（从第一条开始查），之后每次查询，offset 为上一页中时间戳最小值的数量，保证不查出重复数据。<br>比如 score 列表为：5, 4, 4, 3, 2, 1。每页 3 条。<br>第一次查询 ZRevRangeByScore key 0 9999999 0 3 查出 5、4、4，最小值 4 重复 2 次，即下一次的最大值为 4、offset 为 2。<br>所以第二次查询为 ZRevRangeByScore key 0 4 2 3 查出 3、2、1</p>
+<p><strong>GEO 地理坐标计算</strong><br>P88 - P90<br>Redis 支持 GEO 数据结构，可用于存储多个地理坐标、计算坐标间的距离，计算某坐标半径范围内的其他点和距离（实现附近的人）。<br>GEO 底层是 SortedSet 类型<br>支持以下命令：</p>
+<p><strong>查附近</strong><br>需求：查询你附近所有的小姐姐，以及每个小姐姐和你的距离，并且按照距离由近到远排序<br>实现：<br>1使用 GEOADD 添加所有小姐姐的 id 和位置到一个 key 中<br>2使用 GEOSEARCH 查询以你当前坐标为中心、指定距离内的所有小姐姐，默认返回的就是由近及远的 SortedSet（value 为 id、score 为和你的距离）<br>小技巧：<br>如果我们要根据分类来计算同组内的距离及排名，可以每个类别一个独立的 key，如图：</p>
+<p><strong>BitMap</strong><br>多个二进制位组成的数据结构，每个二进制位对应一个业务的两种互斥状态。比如：10010011。<br>BitMap 的优点是可以用最小的代码（1 个 bit）来保存业务含义，从而大幅节省空间、实现高效运算等。比如可以把某个二进制位从 0 改为 1。<br>底层是 string 类型，以字节为单位存储，所以 bit 的长度为 8 的倍数</p>
+<p>命令：</p>
+<p><strong>签到功能</strong><br>这是 BitMap 的一个经典应用场景。<br>如果使用传统数据库来记录用户某日签到状态，每次签到对应 1 行数据，那么将占用几百 byte 的空间。用户量大了后，占用的内存不可估量。<br>而使用 BitMap，可以用每一个二进制位表示当天的签到状态，0 表示用户已签到、1 表示用户未签到，如下图：</p>
+<p>只用 31 bit，就能表示某用户 1 个月的签到状态。<br>其原理就类似于签到卡，用户可以在一张签到卡上同时对多个不同的日期进行签到，从而避免了重复的用户签名、重复去写日期。</p>
+<p><strong>基本实现</strong><br>用 BITSET 设置某一天对应位置的 bit 值即可，需要查询签到状态时可以用 BITFIELD GET 取出整个 BitMap 的十进制值，再用 **位运算 **将十进制值转为业务需要的格式。</p>
+<p><strong>统计连续签到天数</strong><br>可以先用 BITFIELD GET 取出整个 BitMap 的十进制值。然后循环右移，依次用 1 去和 BitMap 的最后一位进行 <strong>与运算</strong>，即可得知当前位数是否为 1（已签到），配合计数器完成连续 1 的统计。<br>示例代码如下：</p>
+<p>注意，循环右移一定要用 &gt;&gt;&gt;（无符号右移，高位补 0），否则可能会死循环。</p>
+<p><strong>HyperLogLog</strong><br>HyperLogLog（HLL）是 Redis 的高级数据结构，使用概率学算法实现，可以用极低的内存实现不重复元素个数的统计。<br>用法和集合类似，插入元素、求不重复元素个数、合并多个 HLL 等：</p>
+<p>优点：占用内存极低，不会超过 16 Kb<br>缺点：基于概率统计，存在 &lt; 0.81% 的误差<br>因此，它很适合用于 UV、PV 等数据量大、精度要求不高的统计。</p>
+<p><strong>UV &#x2F; PV 统计</strong><br>只需要把用户 id 用 PFADD 添加到 HLL 中，用 PFCOUNT 求值即可；还可以用 PFMERGE 合并多天的统计，来估算整月的 UV。</p>
+<p>刚开始学习 Redis 的朋友学完上面两大章节就够了（P1 - P95），在求职面试前可以再看下面的部分深入学习。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1661838712523-ef4a9938-379e-4633-90cd-04fedfa53af4.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f3f1f1&from=url&id=YQo54&originHeight=642&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1661860409628-60998ca7-81bc-427b-84ec-25ca927cacc7.png?x-oss-process=image/resize,w_1081,limit_0#averageHue=%23152737&from=url&id=N2iLP&originHeight=577&originWidth=1081&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1661862706289-0d131c29-9848-41e9-89a9-4dd0e07d78ca.png#averageHue=%23cbcbc9&from=url&id=hJCyX&originHeight=310&originWidth=1420&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1661861550219-c870a6c5-c3b8-45c2-a98c-d40ee9da54cc.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f2f2f2&from=url&id=iQ9kk&originHeight=814&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1661862400679-42bd43d3-c014-4bef-84c6-cfda891a1e10.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23cececc&from=url&id=p2PgD&originHeight=523&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1661862672521-cda7532d-f7df-45f8-afcd-05d711768631.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f3f3f3&from=url&id=E3skD&originHeight=763&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1661863091505-4e936f4b-4bd9-4725-a3fe-3af79521b3b5.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f6f6f6&from=url&id=x8qVC&originHeight=684&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1661863589046-7495e388-5607-4a74-8579-70110e2bcabf.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f1f0ef&from=url&id=JjrO6&originHeight=620&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1661864069819-a212e48e-6847-402f-9c8b-c49da2035fd5.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f1f1f1&from=url&id=LbPhC&originHeight=692&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1661864923846-67ea2b28-c325-4086-af4a-bbc3edd04de4.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23fef9f8&from=url&id=Bj4K6&originHeight=1070&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1661871634006-05f40eaf-65ce-4995-8f50-dc4e05294aaf.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23e6e6e3&from=url&id=CMqQF&originHeight=436&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1661873415341-491e659b-d90b-4f26-b049-b9e87e9bb620.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f7f7f7&from=url&id=YpId9&originHeight=671&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1661921616087-778dd8bf-63cc-4796-b1c3-677122547928.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f7f6f6&from=url&id=FXUqU&originHeight=596&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1661922180950-6aa9be44-d6cb-4753-a2c7-0b808e6de6ca.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f1eeee&from=url&id=YIIgk&originHeight=689&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1661923370328-3c051d77-234c-4553-a207-a0f897bd2779.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23e5d4d3&from=url&id=wtC4g&originHeight=658&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1661923818451-afd131ec-3f5e-4147-af3d-2bcf310a0112.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23fafafa&from=url&id=okFfA&originHeight=661&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1661924258122-ccc9a1d4-16a8-46bb-9e44-cd4d4a85ae42.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f2f2f2&from=url&id=j6WYz&originHeight=667&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1661924949521-2c030516-1fe7-4685-85e4-c6b686b5a0fe.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23ecebeb&from=url&id=THqDc&originHeight=659&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1661925752772-983448c9-25a2-486a-98fd-a723ea56ca82.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f4f3f3&from=url&id=yi9ea&originHeight=681&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1661944372353-2f44d70a-6207-42b5-8602-bdfb0330d159.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f5f5f5&from=url&id=pEUdX&originHeight=574&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1661945589442-a88fd882-3452-461e-9adb-9bfa2a577eb6.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f3f0f0&from=url&id=QIaxz&originHeight=576&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1661945757372-9427691c-56bc-4521-b996-e93c7351afe0.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f4f4f3&from=url&id=YQLfc&originHeight=646&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1661946415976-1cc6c5fa-f333-4088-9efe-a8431b857d43.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23eeeded&from=url&id=Ss4FC&originHeight=674&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1661946774577-4368f0a8-419c-42a4-87cd-6e3c8c81f957.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f8f8f6&from=url&id=ohoc1&originHeight=533&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1661961347541-af9312d5-4416-4f1e-852d-8daad9aaf72b.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f7f5f5&from=url&id=NkuBt&originHeight=680&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662008375039-1a71b20d-1d87-4607-b7e0-c29b05808d41.png?x-oss-process=image/resize,w_1076,limit_0#averageHue=%23fbfafa&from=url&id=bADud&originHeight=854&originWidth=1076&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662008722698-a9549270-6dc2-4ede-b081-07e0e6ba0456.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f5f5f5&from=url&id=tIqJu&originHeight=704&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662009330789-7326c51e-3039-456c-8f3d-b4530e53445b.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23faf9f9&from=url&id=SoWPM&originHeight=598&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662009326982-7488a52c-d95d-4d88-85a0-29d5884b28f0.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23fbfafa&from=url&id=z8pJx&originHeight=589&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662011259738-a6a16663-4e36-438d-9e78-f40063cd67c4.png?x-oss-process=image/resize,w_1254,limit_0#averageHue=%23f1f4eb&from=url&id=N5s3H&originHeight=247&originWidth=1254&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662030241202-f47dd469-1d9b-4df5-9f26-092d2730d984.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23efeded&from=url&id=DKaIh&originHeight=596&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662031300272-0956bc6b-69e4-48f5-87fe-47b7e5df15d8.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f8f2f0&from=url&id=ZS9jz&originHeight=556&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662031740955-361196d9-008c-430f-96c9-968da059d16e.png#averageHue=%23f8f6f6&from=url&id=bovSf&originHeight=822&originWidth=598&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662052166859-f38be15f-b57d-40e9-ba2c-1fb638039954.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23faf9f9&from=url&id=WpXlq&originHeight=549&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662051386701-c39bfd2a-1e7a-43fb-8af2-cb6380ddc4db.png?x-oss-process=image/resize,w_563,limit_0#averageHue=%23f1edea&from=url&id=wmnP7&originHeight=670&originWidth=563&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662051917992-256924ba-49b7-4eeb-bff8-0db968eea18d.png?x-oss-process=image/resize,w_1149,limit_0#averageHue=%23f9f8f8&from=url&id=KYXeH&originHeight=668&originWidth=1149&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662052994671-0557ed25-ed75-4aec-8341-e91371d3647c.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23d1d6ca&from=url&id=eIMpl&originHeight=665&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662093874892-f64e6e31-c729-45af-83c1-e5a4b04363b0.png?x-oss-process=image/resize,w_955,limit_0#averageHue=%230f2332&from=url&id=RQgRF&originHeight=231&originWidth=955&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662098121346-c34758fa-9b99-412a-9b42-6fe8cd30bda3.png#averageHue=%23e0e0e2&from=url&id=dwn5h&originHeight=232&originWidth=450&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662097922411-4ba1a8d5-e402-4ddf-8596-b19f13a5f216.png?x-oss-process=image/resize,w_680,limit_0#averageHue=%23e8dddb&from=url&id=pHeGt&originHeight=729&originWidth=680&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662098279361-b6b0adaf-5a46-4eae-92c9-29617aebc684.png?x-oss-process=image/resize,w_749,limit_0#averageHue=%23edf0ea&from=url&id=IoJrQ&originHeight=658&originWidth=749&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662098247596-3ac5bdd5-13fd-412a-89af-75a8d845ea5d.png?x-oss-process=image/resize,w_778,limit_0#averageHue=%23eef1eb&from=url&id=MbWjp&originHeight=600&originWidth=778&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662120120114-c6cb6b96-0d32-4d1d-9d70-63f20fdc1ace.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23fcfcfc&from=url&id=GkdjS&originHeight=619&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662135970012-219beab6-83e4-47f2-b6c3-490875f31be3.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f0ece3&from=url&id=qrQWC&originHeight=498&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662138152995-d16f2727-c4d9-40da-bf39-065150d7ed0a.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23fcfcfc&from=url&id=dXZGs&originHeight=607&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662170418646-2bafd7db-ad02-43c9-a0e6-724fee09823c.png#averageHue=%23e5e6e5&from=url&id=oGjME&originHeight=150&originWidth=1416&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662170512882-07909c3b-932c-4f8f-bbf8-16f5f6d9d83d.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f6f6f6&from=url&id=OIqA9&originHeight=504&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662173544679-5086e788-493d-49ee-9ec3-81094b25119f.png#averageHue=%23a2b96c&from=url&id=LXmyA&originHeight=180&originWidth=1596&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662187831281-8d39b9bb-ca7a-40c2-9cf5-ec24c22afc9e.png?x-oss-process=image/resize,w_931,limit_0#averageHue=%23f3f3f5&from=url&id=t0SS3&originHeight=849&originWidth=931&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662187826716-5ff99aa2-fb34-49b8-9795-acb6f925a4b1.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f9f7f4&from=url&id=BZ0eq&originHeight=579&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662199526960-ad74c98d-869d-454a-88be-06f0bbf6e236.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23fcfcfc&from=url&id=AAvI7&originHeight=667&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662199531728-ab03c11f-4c34-4758-85c0-d97db0eb17a1.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23fdfdfd&from=url&id=KahaN&originHeight=827&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662199536976-2a8e6360-4eb0-45b4-8d5d-ac35579b2271.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23fbfbfb&from=url&id=oEZWn&originHeight=713&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662199523680-8bbeeea1-d638-420b-be70-4c7aa72b6e3f.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f8f5f3&from=url&id=eriRG&originHeight=578&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662258685043-daec4891-e0b5-4034-b784-e41dd23aaef6.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f9f8f8&from=url&id=zWvjC&originHeight=680&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662258695058-1cf81cf7-601e-4aeb-8941-bb97f89cc444.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f9f9f8&from=url&id=SEsXU&originHeight=696&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662259856441-adec18e0-f19f-4839-8138-0e207f66fdaa.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f1f1f1&from=url&id=ii8FC&originHeight=547&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662261432855-a5b54817-a81d-42a7-9864-7d3a7a52d6de.png?x-oss-process=image/resize,w_747,limit_0#averageHue=%23b8beb4&from=url&id=owoHt&originHeight=393&originWidth=747&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662263399913-82c17736-6b4f-4bbc-910f-392b016a86ce.png?x-oss-process=image/resize,w_1312,limit_0#averageHue=%23f2f2f2&from=url&id=t2MXn&originHeight=599&originWidth=1312&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662263817244-d2e78caf-38b9-490f-8b9b-756d4cdec63f.png#averageHue=%23faf9f9&from=url&id=gwLv8&originHeight=352&originWidth=1442&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662264055714-e9977747-f48d-4e69-96b5-06189f31394e.png?x-oss-process=image/resize,w_315,limit_0#averageHue=%23dbd9aa&from=url&id=heOm9&originHeight=571&originWidth=315&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662265366088-f364fe64-cc67-427b-a9d9-7e216c6c7bc8.png?x-oss-process=image/resize,w_1106,limit_0#averageHue=%23f4f8f1&from=url&id=fzQam&originHeight=485&originWidth=1106&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br><img src="https://cdn.nlark.com/yuque/0/2022/png/398476/1662270538754-0a2ec2e5-c32c-42cc-9cfc-d5650fbc7c0f.png?x-oss-process=image/resize,w_1176,limit_0#averageHue=%23102136&from=url&id=GDmr2&originHeight=394&originWidth=1176&originalType=binary&ratio=1.75&rotation=0&showTitle=false&status=done&style=none&title="><br>1</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://shiliu001.github.io">十六</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://shiliu001.github.io/2023/07/10/Redis/">https://shiliu001.github.io/2023/07/10/Redis/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://shiliu001.github.io" target="_blank">十六的个人网站</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a></div><div class="post_share"><div class="social-share" data-image="/null" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/07/10/Maven/" title="Maven"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Maven</div></div></a></div><div class="next-post pull-right"><a href="/2023/07/10/Servlet-JSP%20/" title="博客建站记录"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">博客建站记录</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/null" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">十六</div><div class="author-info__description">十六的个人博客网站</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">17</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">12</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/shiliu001"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/shiliu001" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:shiliu_7893@163.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">码农一枚</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/09/10/%E7%BD%91%E7%AB%99%E7%AE%80%E8%BF%B0/" title="博客绪论">博客绪论</a><time datetime="2023-09-10T10:31:10.602Z" title="发表于 2023-09-10 18:31:10">2023-09-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/08/20/%E5%89%8D%E7%AB%AF%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/" title="前端环境搭建">前端环境搭建</a><time datetime="2023-08-20T12:47:00.000Z" title="发表于 2023-08-20 20:47:00">2023-08-20</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/08/17/Java%E5%90%8E%E7%AB%AF%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/" title="后端环境搭建">后端环境搭建</a><time datetime="2023-08-17T12:00:55.000Z" title="发表于 2023-08-17 20:00:55">2023-08-17</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/07/10/AJAX/" title="AJAX">AJAX</a><time datetime="2023-07-10T10:47:55.000Z" title="发表于 2023-07-10 18:47:55">2023-07-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/07/10/Java8%E6%96%B0%E7%89%B9%E6%80%A7/" title="Java8新特性">Java8新特性</a><time datetime="2023-07-10T10:47:55.000Z" title="发表于 2023-07-10 18:47:55">2023-07-10</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2023 By 十六</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/metingjs/dist/Meting.min.js"></script><script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"]):not([href="/music/"]):not([href="/no-pjax/"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"tagMode":false,"debug":false,"model":{"jsonPath":"live2d-widget-model-koharu"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/"});</script></body></html>
